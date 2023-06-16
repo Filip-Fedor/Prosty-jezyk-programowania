@@ -15,13 +15,16 @@ public class DeklaracjaProcedury extends Instrukcja {
 
     private List<Instrukcja> instrukcje;
 
-    private List<Zmienna> zmienneParametry;
 
     public DeklaracjaProcedury(String nazwaProcedury, List<String> listaParametrow) {
         this.nazwaProcedury = nazwaProcedury;
         this.listaParametrow = listaParametrow;
+        this.instrukcje = new ArrayList<>();
     }
 
+    public String dajNazwaProcedury() {
+        return nazwaProcedury;
+    }
 
     @Override
     public void wypiszInstrukcje() {
@@ -30,15 +33,24 @@ public class DeklaracjaProcedury extends Instrukcja {
 
     @Override
     public void wykonajInstrukcje(Debugger debugger, Srodowisko srodowisko) {
-        stworzZmienneZParametrow();
+
     }
 
-    public void stworzZmienneZParametrow() {
+    public List<Zmienna> dajZmienneZParametrow() {
         List<Zmienna> zmienneParametry = new ArrayList<>();
         for (String s : listaParametrow) {
             Zmienna z = new Zmienna(s);
             zmienneParametry.add(z);
         }
-        this.zmienneParametry = zmienneParametry;
+        return zmienneParametry;
+    }
+
+
+    public List<Instrukcja> dajInstrukcje() {
+        return instrukcje;
+    }
+
+    public void dodajInstrukcje(Instrukcja i) {
+        instrukcje.add(i);
     }
 }

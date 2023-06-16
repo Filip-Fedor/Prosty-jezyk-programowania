@@ -66,19 +66,11 @@ public class Blok extends Instrukcja {
         }
     }
 
-    public void deklarujProcedury(Debugger debugger, Srodowisko srodowisko) {
-        for (DeklaracjaProcedury deklaracjaProcedury : deklaracjaProcedur) {
-            deklaracjaProcedury.wykonajInstrukcje(debugger, srodowisko);
-        }
-    }
-
-
 
     public void wykonajInstrukcje(Debugger debugger, Srodowisko srodowisko) {
         List<Zmienna> zmienneSwoje = deklarujZmienne(debugger, srodowisko);
         dodajDoSwojejListyZmienne(srodowisko, zmienneSwoje);
 
-        deklarujProcedury(debugger, srodowisko);
 
         srodowisko.dodajListeZmiennych(zmienneSwoje);
         srodowisko.dodajListeProcedur(deklaracjaProcedur);

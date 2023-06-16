@@ -64,6 +64,17 @@ public class Srodowisko {
         listaListaProcedur.remove(listaListaProcedur.size()-1);
     }
 
+    public DeklaracjaProcedury dajDeklaracjeProcedury(String nazwaProcedury) {
+        for (int i = listaListaProcedur.size()-1; i>=0; i--) {
+            for (DeklaracjaProcedury deklaracjaProcedury : listaListaProcedur.get(i)) {
+                if (deklaracjaProcedury.dajNazwaProcedury().equals(nazwaProcedury)) {
+                    return deklaracjaProcedury;
+                }
+            }
+        }
+        return null;
+    }
+
 
 
 }
