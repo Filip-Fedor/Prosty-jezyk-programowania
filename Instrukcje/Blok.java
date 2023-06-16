@@ -14,8 +14,10 @@ public class Blok extends Instrukcja {
 
     private List<DeklaracjaZmiennej> deklaracjaZmiennych;
     private List<Instrukcja> instrukcje;
+    private List<DeklaracjaProcedury> deklaracjaProcedur;
 
-    public Blok(List<DeklaracjaZmiennej> deklaracjaZmiennych) {
+    public Blok(List<DeklaracjaZmiennej> deklaracjaZmiennych, List<DeklaracjaProcedury> deklaracjaProcedur) {
+        this.deklaracjaProcedur = deklaracjaProcedur;
         this.deklaracjaZmiennych = deklaracjaZmiennych;
         this.instrukcje = new ArrayList<>();
     }
@@ -64,24 +66,30 @@ public class Blok extends Instrukcja {
         }
     }
 
-
-    public void wypiszInstrukcje() {
-        System.out.println("Blok");
+    public void deklarujProcedury(Debugger debugger, Srodowisko srodowisko) {
+        for (DeklaracjaProcedury deklaracjaProcedury : deklaracjaProcedur) {
+            deklaracjaProcedury.wykonajInstrukcje(debugger, srodowisko);
+        }
     }
+
 
 
     public void wykonajInstrukcje(Debugger debugger, Srodowisko srodowisko) {
         List<Zmienna> zmienneSwoje = deklarujZmienne(debugger, srodowisko);
         dodajDoSwojejListyZmienne(srodowisko, zmienneSwoje);
 
+        deklarujProcedury(debugger, srodowisko);
+
         srodowisko.dodajListeZmiennych(zmienneSwoje);
+        srodowisko.dodajListeProcedur(deklaracjaProcedur);
 
         for (Instrukcja i : instrukcje) {
             debugger.debugger(i, srodowisko);
             i.wykonajInstrukcje(debugger, srodowisko);
         }
 
-        srodowisko.usunOstatniaListe();
+        srodowisko.usunOstatniaListeZmiennych();
+        srodowisko.usunOstatniaListeProcedur();
 
         if (srodowisko.dajRozmiarListy() == 0) {
             wypiszZmienne(zmienneSwoje);
@@ -92,5 +100,9 @@ public class Blok extends Instrukcja {
         for (Zmienna z : zmienne) {
             System.out.println("Nazwa " + z.getNazwa() + "| Wartosc " + z.oblicz(zmienne));
         }
+    }
+
+    public void wypiszInstrukcje() {
+        System.out.println("Blok");
     }
 }

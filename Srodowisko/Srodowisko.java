@@ -1,6 +1,7 @@
 package Srodowisko;
 
 import Debugger.Debugger;
+import Instrukcje.DeklaracjaProcedury;
 import Wyrazenia.Zmienna;
 
 import java.util.ArrayList;
@@ -12,12 +13,15 @@ public class Srodowisko {
 
     private List<List<Zmienna>> listaListZmiennych;
 
+    private List<List<DeklaracjaProcedury>> listaListaProcedur;
+
     public Srodowisko() {
         listaListZmiennych = new ArrayList<>();
+        listaListaProcedur = new ArrayList<>();
     }
 
     public void ustawDebugger(int obecnyKrok, int ileKrokowWykonac, int poziomZagniezdzenia) {
-        debugger = new Debugger(obecnyKrok,ileKrokowWykonac,poziomZagniezdzenia);
+        debugger = new Debugger(obecnyKrok, ileKrokowWykonac, poziomZagniezdzenia);
     }
 
     public Debugger getDebugger() {
@@ -39,7 +43,7 @@ public class Srodowisko {
         return listaListZmiennych.get(size-1);
     }
 
-    public void usunOstatniaListe() {
+    public void usunOstatniaListeZmiennych() {
         listaListZmiennych.remove(listaListZmiennych.size()-1);
     }
 
@@ -50,4 +54,16 @@ public class Srodowisko {
     public List<Zmienna> dajListePodIndeksem(int i) {
         return listaListZmiennych.get(i);
     }
+
+
+    public void dodajListeProcedur(List<DeklaracjaProcedury> deklaracjaProcedury) {
+        listaListaProcedur.add(deklaracjaProcedury);
+    }
+
+    public void usunOstatniaListeProcedur() {
+        listaListaProcedur.remove(listaListaProcedur.size()-1);
+    }
+
+
+
 }

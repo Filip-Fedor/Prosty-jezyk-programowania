@@ -71,7 +71,7 @@ public class Petla extends Instrukcja {
                 }
             }
 
-            srodowisko.usunOstatniaListe();
+            srodowisko.usunOstatniaListeZmiennych();
 
         } catch (ArithmeticException | NullPointerException | IllegalArgumentException e) {
             System.out.println("Wystapil blad: " + e.getMessage());
