@@ -1,9 +1,11 @@
 package Debugger;
 
+import Instrukcje.DeklaracjaProcedury;
 import Instrukcje.Instrukcja;
 import Wyrazenia.Zmienna;
 import Srodowisko.*;
 
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -17,6 +19,10 @@ public class Debugger {
     private int ileKrokowWykonac;
 
     private int poziomZagniezdzenia;
+
+    private int zrzut = 0;
+
+    private String sciezkaDoPliku;
 
     public Debugger(int obecnyKrok, int ileKrokowWykonac, int poziomZagniezdzenia) {
         this.obecnyKrok = obecnyKrok;
@@ -35,6 +41,9 @@ public class Debugger {
             }
             debugKomenda();
             while (obecnyKrok == 0 && ileKrokowWykonac == 0) {
+                if (zrzut == 1) {
+                    zrzut(srodowisko);
+                }
                 if (poziomZagniezdzenia == -1) {
                     try {
                         instrukcja.wypiszInstrukcje();
@@ -61,6 +70,7 @@ public class Debugger {
     public void debugKomenda() {
         Scanner scanner = new Scanner(System.in);
         String komenda;
+        String sciezkaDoPliku = null;
         int stop = 0;
         while (stop == 0) {
             System.out.println("Wprowadz polecenie: ");
@@ -84,10 +94,20 @@ public class Debugger {
                     komenda = "x";
                 }
             }
+            if (komenda.trim().startsWith("m")) {
+                sciezkaDoPliku = komenda.substring(1).trim();
+                File file = new File(sciezkaDoPliku);
+                if (file.exists() && file.isFile() && file.canWrite()) {
+                    komenda = "m";
+                } else {
+                    komenda = "x";
+                }
+            }
             try {
                 switch (komenda) {
                     case "c":
                         ileKrokowWykonac = -1;
+                        zrzut = 0;
                         stop = 1;
                         break;
                     case "s":
@@ -95,6 +115,7 @@ public class Debugger {
                             ileKrokowWykonac = liczba;
                             obecnyKrok = 0;
                             poziomZagniezdzenia = -1;
+                            zrzut = 0;
                             stop = 1;
                         }
                         else {
@@ -106,6 +127,7 @@ public class Debugger {
                             obecnyKrok = 0;
                             ileKrokowWykonac = 0;
                             poziomZagniezdzenia = liczba;
+                            zrzut = 0;
                             stop = 1;
                         }
                         else {
@@ -115,12 +137,36 @@ public class Debugger {
                     case "e":
                         exit(0);
                         break;
+                    case "m":
+                        obecnyKrok = 0;
+                        ileKrokowWykonac = 0;
+                        poziomZagniezdzenia = -1;
+                        zrzut = 1;
+                        this.sciezkaDoPliku = sciezkaDoPliku;
+                        stop = 1;
+                        break;
                     default:
                         throw new InputMismatchException("Nieprawdilowe polecenie.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public void zrzut(Srodowisko srodowisko) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(sciezkaDoPliku))) {
+            for (DeklaracjaProcedury deklaracjaProcedury : srodowisko.dajWidoczneDeklaracje()) {
+                writer.write(deklaracjaProcedury.toString());
+                writer.newLine();
+            }
+
+            for (Zmienna z : srodowisko.dajOstatniaListe()) {
+                writer.write("Nazwa " + z.getNazwa() + "| Wartosc " + z.oblicz(srodowisko.dajOstatniaListe()));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
