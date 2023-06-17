@@ -16,9 +16,9 @@ public class Blok extends Instrukcja {
     private List<Instrukcja> instrukcje;
     private List<DeklaracjaProcedury> deklaracjaProcedur;
 
-    public Blok(List<DeklaracjaZmiennej> deklaracjaZmiennych, List<DeklaracjaProcedury> deklaracjaProcedur) {
-        this.deklaracjaProcedur = deklaracjaProcedur;
-        this.deklaracjaZmiennych = deklaracjaZmiennych;
+    public Blok() {
+        this.deklaracjaProcedur = new ArrayList<>();
+        this.deklaracjaZmiennych = new ArrayList<>();
         this.instrukcje = new ArrayList<>();
     }
 
@@ -26,6 +26,13 @@ public class Blok extends Instrukcja {
         instrukcje.add(i);
     }
 
+    public void dodajDeklaracjeZmiennej(DeklaracjaZmiennej deklaracjaZmiennej) {
+        deklaracjaZmiennych.add(deklaracjaZmiennej);
+    }
+
+    public void dodajDeklaracjeProcedury(DeklaracjaProcedury deklaracjaProcedury) {
+        deklaracjaProcedur.add(deklaracjaProcedury);
+    }
 
     public List<Zmienna> deklarujZmienne(Debugger debugger, Srodowisko srodowisko) {
         List<Zmienna> noweZmienne = new ArrayList<>();
