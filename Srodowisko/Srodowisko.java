@@ -75,6 +75,27 @@ public class Srodowisko {
         return null;
     }
 
+    public boolean czyJestDeklaracjaODanejNazwie(List<DeklaracjaProcedury> dp, String nazwa) {
+        for (DeklaracjaProcedury deklaracjaProcedury : dp) {
+            if (deklaracjaProcedury.dajNazwaProcedury().equals(nazwa)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<DeklaracjaProcedury> dajWidoczneDeklaracje() {
+        List<DeklaracjaProcedury> listaDeklaracjiProcedur = new ArrayList<>();
+        for (int i = listaListaProcedur.size()-1; i>=0; i--) {
+            for (DeklaracjaProcedury deklaracjaProcedury : listaListaProcedur.get(i)) {
+                if (!czyJestDeklaracjaODanejNazwie(listaDeklaracjiProcedur, deklaracjaProcedury.dajNazwaProcedury())) {
+                    listaDeklaracjiProcedur.add(deklaracjaProcedury);
+                }
+            }
+        }
+        return listaDeklaracjiProcedur;
+    }
+
 
 
 }
