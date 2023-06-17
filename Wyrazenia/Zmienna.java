@@ -21,6 +21,10 @@ public class Zmienna extends Wyrazenie {
         }
     }
 
+    public static Zmienna named(String nazwa) {
+        return new Zmienna(nazwa);
+    }
+
     public void ustawWartoscZmiennej(List<Zmienna> zmienne) {
         int stop = 0;
         for (Zmienna zmienna : zmienne) {

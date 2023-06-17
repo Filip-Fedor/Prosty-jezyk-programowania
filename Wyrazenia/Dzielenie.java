@@ -7,6 +7,10 @@ public class Dzielenie extends Operator {
         super(lewe, prawe);
     }
 
+    public static Dzielenie dziel(Wyrazenie lewe, Wyrazenie prawe) {
+        return new Dzielenie(lewe, prawe);
+    }
+
     public int oblicz(List<Zmienna> zmienne) {
         if (lewe == null || prawe == null) {
             throw new NullPointerException("Blad wyliczenia.");
