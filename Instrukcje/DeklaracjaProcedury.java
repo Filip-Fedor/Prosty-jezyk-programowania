@@ -57,4 +57,8 @@ public class DeklaracjaProcedury extends Instrukcja {
     public String toString() {
         return nazwaProcedury;
     }
+
+    public List<String> dajListaParametrow() {
+        return listaParametrow;
+    }
 }
