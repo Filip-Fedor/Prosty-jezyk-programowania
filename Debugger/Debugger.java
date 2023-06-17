@@ -157,7 +157,7 @@ public class Debugger {
     public void zrzut(Srodowisko srodowisko) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(sciezkaDoPliku))) {
             for (DeklaracjaProcedury deklaracjaProcedury : srodowisko.dajWidoczneDeklaracje()) {
-                writer.write(deklaracjaProcedury.toString());
+                writer.write(deklaracjaProcedury.toString() + deklaracjaProcedury.dajListaParametrow());
                 writer.newLine();
             }
 
