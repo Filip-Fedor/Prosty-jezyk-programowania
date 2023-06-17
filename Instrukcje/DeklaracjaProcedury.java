@@ -53,4 +53,12 @@ public class DeklaracjaProcedury extends Instrukcja {
     public void dodajInstrukcje(Instrukcja i) {
         instrukcje.add(i);
     }
+
+    public String toString() {
+        return nazwaProcedury;
+    }
+
+    public List<String> dajListaParametrow() {
+        return listaParametrow;
+    }
 }
