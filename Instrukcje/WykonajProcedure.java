@@ -15,10 +15,12 @@ public class WykonajProcedure extends Instrukcja {
 
     private List<Wyrazenie> wyrazenia;
 
+
     public WykonajProcedure(String nazwaProcedury, List<Wyrazenie> wyrazenia) {
         this.nazwaProcedury = nazwaProcedury;
         this.wyrazenia = wyrazenia;
     }
+
 
 
 
@@ -29,15 +31,12 @@ public class WykonajProcedure extends Instrukcja {
         przypiszWartoscZmiennym(zmienneSwoje, srodowisko);
         dodajDoSwojejListyZmienne(srodowisko, zmienneSwoje);
 
-
         srodowisko.dodajListeZmiennych(zmienneSwoje);
 
-        for (Instrukcja i : deklaracjaProcedury.dajInstrukcje()) {
-            debugger.debugger(i, srodowisko);
-            i.wykonajInstrukcje(debugger, srodowisko);
-        }
+        deklaracjaProcedury.wykonajInstrukcje(debugger, srodowisko);
 
         srodowisko.usunOstatniaListeZmiennych();
+
     }
 
     public void dodajDoSwojejListyZmienne(Srodowisko srodowisko, List<Zmienna> zmienneSwoje) {
@@ -65,7 +64,7 @@ public class WykonajProcedure extends Instrukcja {
 
     @Override
     public void wypiszInstrukcje() {
-        System.out.println("Wykonanie procedury" + nazwaProcedury);
+        System.out.println("Wykonanie procedury: " + nazwaProcedury);
     }
 
     public void wypiszZmienne(List<Zmienna> zmienne) {

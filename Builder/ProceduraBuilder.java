@@ -14,31 +14,47 @@ public class ProceduraBuilder {
        deklaracjaProcedury = new DeklaracjaProcedury(nazwa, parametry);
     }
 
+    public ProceduraBuilder deklaracjaZmiennej(String nazwa, Wyrazenie wyrazenie) {
+        DeklaracjaZmiennej deklaracjaZmiennej = new DeklaracjaZmiennej(nazwa, wyrazenie);
+        deklaracjaProcedury.dajBlok().dodajDeklaracjeZmiennej(deklaracjaZmiennej);
+        return this;
+    }
+
+    public ProceduraBuilder deklaracjaProcedury(DeklaracjaProcedury deklaracjaProcedury) {
+        this.deklaracjaProcedury.dajBlok().dodajDeklaracjeProcedury(deklaracjaProcedury);
+        return this;
+    }
 
     public ProceduraBuilder przypisanie(String nazwa, Wyrazenie wyrazenie) {
         Przypisanie przypisanie = new Przypisanie(nazwa, wyrazenie);
-        deklaracjaProcedury.dodajInstrukcje(przypisanie);
+        deklaracjaProcedury.dajBlok().dodajInstrukcje(przypisanie);
         return this;
     }
 
     public ProceduraBuilder print(Wyrazenie wyrazenie) {
         Print print = new Print(wyrazenie);
-        deklaracjaProcedury.dodajInstrukcje(print);
+        deklaracjaProcedury.dajBlok().dodajInstrukcje(print);
         return this;
     }
 
     public ProceduraBuilder petla(Petla petla) {
-        deklaracjaProcedury.dodajInstrukcje(petla);
+        deklaracjaProcedury.dajBlok().dodajInstrukcje(petla);
         return this;
     }
 
     public ProceduraBuilder blok(Blok blok) {
-        deklaracjaProcedury.dodajInstrukcje(blok);
+        deklaracjaProcedury.dajBlok().dodajInstrukcje(blok);
         return this;
     }
 
     public ProceduraBuilder warunkowa(Warunkowa warunkowa) {
-        deklaracjaProcedury.dodajInstrukcje(warunkowa);
+        deklaracjaProcedury.dajBlok().dodajInstrukcje(warunkowa);
+        return this;
+    }
+
+    public ProceduraBuilder wykonajProcedure(String nazwaProcedury, List<Wyrazenie> wyrazenia) {
+        WykonajProcedure wykonajProcedure = new WykonajProcedure(nazwaProcedury, wyrazenia);
+        deklaracjaProcedury.dajBlok().dodajInstrukcje(wykonajProcedure);
         return this;
     }
 
