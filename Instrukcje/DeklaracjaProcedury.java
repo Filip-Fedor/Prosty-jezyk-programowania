@@ -5,7 +5,9 @@ import Srodowisko.Srodowisko;
 import Wyrazenia.Zmienna;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.lang.System.exit;
 
@@ -47,6 +49,20 @@ public class DeklaracjaProcedury extends Instrukcja {
         return zmienneParametry;
     }
 
+    public boolean sprawdzCzyDobreParametry() {
+        Set<String> set = new HashSet<>();
+
+        for (String s : listaParametrow) {
+            if (s.length() != 1 || !s.matches("[a-z]")) {
+                return false;
+            }
+
+            if (!set.add(s)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
     public String toString() {

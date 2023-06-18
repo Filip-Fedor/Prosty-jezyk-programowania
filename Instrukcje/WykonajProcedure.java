@@ -8,6 +8,8 @@ import Wyrazenia.Zmienna;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.exit;
+
 public class WykonajProcedure extends Instrukcja {
 
 
@@ -26,16 +28,26 @@ public class WykonajProcedure extends Instrukcja {
 
     @Override
     public void wykonajInstrukcje(Debugger debugger, Srodowisko srodowisko) {
-        DeklaracjaProcedury deklaracjaProcedury = srodowisko.dajDeklaracjeProcedury(nazwaProcedury);
-        List<Zmienna> zmienneSwoje = deklaracjaProcedury.dajZmienneZParametrow();
-        przypiszWartoscZmiennym(zmienneSwoje, srodowisko);
-        dodajDoSwojejListyZmienne(srodowisko, zmienneSwoje);
+        try {
+            DeklaracjaProcedury deklaracjaProcedury = srodowisko.dajDeklaracjeProcedury(nazwaProcedury);
+            if (deklaracjaProcedury == null) {
+                throw new NullPointerException("Nie istnieje procedura o danej nazwie.");
+            }
+            List<Zmienna> zmienneSwoje = deklaracjaProcedury.dajZmienneZParametrow();
+            przypiszWartoscZmiennym(zmienneSwoje, srodowisko);
+            dodajDoSwojejListyZmienne(srodowisko, zmienneSwoje);
 
-        srodowisko.dodajListeZmiennych(zmienneSwoje);
+            srodowisko.dodajListeZmiennych(zmienneSwoje);
 
-        deklaracjaProcedury.wykonajInstrukcje(debugger, srodowisko);
+            deklaracjaProcedury.wykonajInstrukcje(debugger, srodowisko);
 
-        srodowisko.usunOstatniaListeZmiennych();
+            srodowisko.usunOstatniaListeZmiennych();
+        } catch (NullPointerException e) {
+            System.out.println("Wystapil blad: " + e.getMessage());
+            System.out.println("Wywolanie procedury");
+            wypiszZmienne(srodowisko.dajOstatniaListe());
+            exit(-1);
+        }
 
     }
 
@@ -55,6 +67,15 @@ public class WykonajProcedure extends Instrukcja {
     }
 
     public void przypiszWartoscZmiennym(List<Zmienna> zmienne, Srodowisko srodowisko) {
+        try {
+            if (wyrazenia.size() != (zmienne.size()))
+                throw new IllegalArgumentException("Liczba parametrow sie rozni.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Wystapil blad: " + e.getMessage());
+            System.out.println("Wywolanie procedury");
+            wypiszZmienne(srodowisko.dajOstatniaListe());
+            exit(-1);
+        }
         int k = 0;
         for (Zmienna z : zmienne) {
             z.setWartosc(wyrazenia.get(0).oblicz(srodowisko.dajOstatniaListe()));
