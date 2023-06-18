@@ -73,6 +73,29 @@ public class Blok extends Instrukcja {
         }
     }
 
+    public void deklarujProcedury(Debugger debugger, Srodowisko srodowisko) {
+        List<DeklaracjaProcedury> deklaracje = new ArrayList<>();
+        try {
+            for (DeklaracjaProcedury deklaracjaProcedury : deklaracjaProcedur) {
+                debugger.debugger(deklaracjaProcedury, srodowisko);
+                if (!deklaracjaProcedury.dajNazwaProcedury().matches("[a-z]+"))
+                    throw new IllegalArgumentException("Nieprawidlowa nazwa procedury.");
+                if (!deklaracjaProcedury.sprawdzCzyDobreParametry())
+                    throw new IllegalArgumentException("Nieprawidlowe parametry.");
+                for (DeklaracjaProcedury dp : deklaracje) {
+                    if (deklaracjaProcedury.dajNazwaProcedury().equals(dp.dajNazwaProcedury()))
+                        throw new IllegalArgumentException("Deklaracja o danej nazwie juz istnieje.");
+                }
+                deklaracje.add(deklaracjaProcedury);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Wystapil blad: " + e.getMessage());
+            System.out.println("Deklaracja procedury");
+            wypiszZmienne(srodowisko.dajOstatniaListe());
+            exit(-1);
+        }
+    }
+
 
     public void wykonajInstrukcje(Debugger debugger, Srodowisko srodowisko) {
         List<Zmienna> zmienneSwoje = deklarujZmienne(debugger, srodowisko);
@@ -81,6 +104,8 @@ public class Blok extends Instrukcja {
 
         srodowisko.dodajListeZmiennych(zmienneSwoje);
         srodowisko.dodajListeProcedur(deklaracjaProcedur);
+
+        deklarujProcedury(debugger, srodowisko);
 
         for (Instrukcja i : instrukcje) {
             debugger.debugger(i, srodowisko);
