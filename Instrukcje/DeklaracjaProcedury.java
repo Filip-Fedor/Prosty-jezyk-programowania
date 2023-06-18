@@ -7,19 +7,21 @@ import Wyrazenia.Zmienna;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.exit;
+
 public class DeklaracjaProcedury extends Instrukcja {
 
     private String nazwaProcedury;
 
     private List<String> listaParametrow;
 
-    private List<Instrukcja> instrukcje;
+    private Blok blok;
 
 
     public DeklaracjaProcedury(String nazwaProcedury, List<String> listaParametrow) {
         this.nazwaProcedury = nazwaProcedury;
         this.listaParametrow = listaParametrow;
-        this.instrukcje = new ArrayList<>();
+        this.blok = new Blok();
     }
 
     public String dajNazwaProcedury() {
@@ -33,7 +35,7 @@ public class DeklaracjaProcedury extends Instrukcja {
 
     @Override
     public void wykonajInstrukcje(Debugger debugger, Srodowisko srodowisko) {
-
+        blok.wykonajInstrukcje(debugger, srodowisko);
     }
 
     public List<Zmienna> dajZmienneZParametrow() {
@@ -46,13 +48,6 @@ public class DeklaracjaProcedury extends Instrukcja {
     }
 
 
-    public List<Instrukcja> dajInstrukcje() {
-        return instrukcje;
-    }
-
-    public void dodajInstrukcje(Instrukcja i) {
-        instrukcje.add(i);
-    }
 
     public String toString() {
         return nazwaProcedury;
@@ -60,5 +55,9 @@ public class DeklaracjaProcedury extends Instrukcja {
 
     public List<String> dajListaParametrow() {
         return listaParametrow;
+    }
+
+    public Blok dajBlok() {
+        return blok;
     }
 }
