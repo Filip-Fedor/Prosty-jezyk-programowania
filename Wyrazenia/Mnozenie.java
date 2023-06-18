@@ -7,6 +7,10 @@ public class Mnozenie extends Operator {
         super(lewe, prawe);
     }
 
+    public static Mnozenie mnoz(Wyrazenie lewe, Wyrazenie prawe) {
+        return new Mnozenie(lewe, prawe);
+    }
+
     public int oblicz(List<Zmienna> zmienne) {
         if (lewe == null || prawe == null) {
             throw new NullPointerException("Blad wyliczenia.");

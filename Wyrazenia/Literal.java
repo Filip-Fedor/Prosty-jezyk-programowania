@@ -9,6 +9,10 @@ public class Literal extends Wyrazenie {
         this.wartosc = wartosc;
     }
 
+    public static Literal of(int wartosc) {
+        return new Literal(wartosc);
+    }
+
     public int oblicz(List<Zmienna> zmienne) {
         return wartosc;
     }

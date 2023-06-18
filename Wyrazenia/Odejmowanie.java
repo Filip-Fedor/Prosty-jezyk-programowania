@@ -7,6 +7,10 @@ public class Odejmowanie extends Operator {
         super(lewe, prawe);
     }
 
+    public static Odejmowanie odejmij(Wyrazenie lewe, Wyrazenie prawe) {
+        return new Odejmowanie(lewe, prawe);
+    }
+
     public int oblicz(List<Zmienna> zmienne) {
         if (lewe == null || prawe == null) {
             throw new NullPointerException("Blad wyliczenia.");
